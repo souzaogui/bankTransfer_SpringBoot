@@ -1,27 +1,26 @@
 package com.example.transfers.model;
 
+import com.example.sk.identifiers.TransfersId;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-import lombok.Getter;
-import lombok.Setter;
+import static java.util.Objects.requireNonNull;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 
 @Entity
-@Getter
-@Setter
 @Table(name = "transferencias")
 public class Transfers {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @EmbeddedId
+    @AttributeOverride(name = TransfersId.ATTR, column = @Column(name = "id"))
+    private final TransfersId id;
 
     @Column(name = "banco")
     private String banco;
@@ -46,4 +45,20 @@ public class Transfers {
 
     @Column(name = "codigoTransferencia")
     private String codigoTransferencia;
+
+    Transfers(TransfersBuilder builder) {
+        this.id = requireNonNull(builder.id);
+        this.banco = requireNonNull(builder.banco);
+        this.agencia = requireNonNull(builder.agencia);
+        this.conta = requireNonNull(builder.conta);
+        this.documento = requireNonNull(builder.documento);
+        this.tipoConta = requireNonNull(builder.tipoConta);
+        this.valor = requireNonNull(builder.valor);
+        this.data = requireNonNull(builder.data);
+        this.codigoTransferencia = requireNonNull(builder.codigoTransferencia);
+    }
+
+    public static TransfersBuilder builder() {
+        return new TransfersBuilder();
+    }
 }

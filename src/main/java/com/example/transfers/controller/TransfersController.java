@@ -1,33 +1,24 @@
 package com.example.transfers.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.example.transfers.usecase.RegisterTransfersUseCase;
+import com.example.transfers.usecase.RegisterTransfersUseCase.RegisterTransfers;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.transfers.model.Transfers;
-import com.example.transfers.repository.TransfersRepository;
+@RequiredArgsConstructor
 
 @RestController
 @RequestMapping(path = "/api/transfers")
 public class TransfersController {
 
-    @Autowired
-    TransfersRepository transfersRepository;
+    private final RegisterTransfersUseCase registerTransfersUseCase;
 
-    // TODO: Get
-
-    @GetMapping(path = "/")
-    public String validate() {
-        return "Transferências Online";
+    @PostMapping(path = "/register")
+    public void registerTransfers(@RequestBody RegisterTransfers transfers) {
+        registerTransfersUseCase.handle(transfers);
     }
-
-    @GetMapping(path = "/list-all")
-    public List<Transfers> getListUsers() {
-        return (List<Transfers>) transfersRepository.findAll();
-    }
-
 
 }
