@@ -15,7 +15,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 
-@Entity(name = "TransferQuery")
+@Entity(name = "TransfersQuery")
 @Table(name = "transferencias")
 public class TransfersQuery {
 

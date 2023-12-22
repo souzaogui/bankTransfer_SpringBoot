@@ -30,7 +30,7 @@ public class TransfersQueryController {
     }
 
     @GetMapping(path = "/{id}")
-    public TransfersQuery getTransferById(@PathVariable String id) {
-        return transfersQueryAppService.getById(UUID.fromString(id));
+    public TransfersQuery getTransferById(@PathVariable UUID id) {
+        return transfersQueryAppService.getById(id);
     }
 }
